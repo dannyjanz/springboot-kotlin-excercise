@@ -1,0 +1,44 @@
+group 'de.bringmeister'
+version '0.1.0'
+
+buildscript {
+    ext.versions = [
+            springboot: "1.5.7.RELEASE",
+            kotlin: "1.2.21"
+    ]
+
+    ext.pluginDependencies = [
+            springboot: "org.springframework.boot:spring-boot-gradle-plugin:${versions.springboot}",
+            kotlinGradle: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+            kotlinAllOpen: "org.jetbrains.kotlin:kotlin-allopen:${versions.kotlin}"
+    ]
+
+    ext.allRepositories = {
+        jcenter()
+        mavenCentral()
+    }
+
+    repositories(allRepositories)
+
+    dependencies {
+        classpath pluginDependencies.springboot
+        classpath pluginDependencies.kotlinGradle
+        classpath pluginDependencies.kotlinAllOpen
+    }
+}
+
+repositories(allRepositories)
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: "kotlin-spring"
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springboot
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
