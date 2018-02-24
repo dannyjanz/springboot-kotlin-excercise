@@ -14,6 +14,7 @@ class SkuUnitPricesFromJson @Autowired constructor(fileProvider: FileContentProv
     private val prices: List<SkuUnitPrice> = mapper.readValue(json,
             mapper.typeFactory.constructCollectionLikeType(List::class.java, SkuUnitPrice::class.java))
 
-    override fun all(): List<SkuUnitPrice> = prices
+    override val query: Query<SkuUnitPrice> = SimpleSequenceQuery(prices.asSequence())
+
 
 }

@@ -14,7 +14,7 @@ class SkuUnitPricesFromJsonUTest {
     @Test
     fun `test that all entries in the JSON are being converted to SkuUnitPrices`() {
 
-        val skuUnitPrices = SkuUnitPricesFromJson(MockSkuUnitPrices).all()
+        val skuUnitPrices = SkuUnitPricesFromJson(MockSkuUnitPrices).query.list()
 
         assert(skuUnitPrices.size == MockSkuUnitPrices.all.size)
         assert(skuUnitPrices.containsAll(MockSkuUnitPrices.all))
