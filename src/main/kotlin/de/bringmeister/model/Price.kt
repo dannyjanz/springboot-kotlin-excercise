@@ -1,10 +1,17 @@
 package de.bringmeister.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
+import java.util.Currency
 
-data class Currency(val name: String, val code : String )
+data class Price(
 
-data class Price(val value: BigDecimal, val currency : Currency )
+        @JsonProperty("value")
+        val value: BigDecimal,
+
+        @JsonProperty("currency")
+        val currency: Currency
+)
 
 
-data class Greeting(val id: Long, val content: String)
+
