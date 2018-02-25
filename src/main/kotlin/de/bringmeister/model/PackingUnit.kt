@@ -8,5 +8,13 @@ enum class PackingUnit {
     PIECE,
 
     @JsonProperty("package")
-    PACKAGE
+    PACKAGE;
+
+    companion object {
+        fun fromCode(code: String) = code.toLowerCase().let { lowerCode ->
+            values().filter { it.name.toLowerCase() == lowerCode }.first()
+        }
+    }
+
+
 }

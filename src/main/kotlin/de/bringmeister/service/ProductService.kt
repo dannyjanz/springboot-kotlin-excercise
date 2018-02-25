@@ -9,21 +9,25 @@ import de.bringmeister.storage.SkuUnitPriceStorage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+interface ProductService {
+
+    fun allProducts(): List<Product>
+    fun product(id: String): ProductWithPrices
+    fun price(id: String, unit: PackingUnit): Price
+}
+
 @Component
-class ProductService @Autowired constructor(
+class ProductServiceInstance @Autowired constructor(
         private val products: ProductStorage,
-        private val unitPrices: SkuUnitPriceStorage) {
+        private val unitPrices: SkuUnitPriceStorage) : ProductService {
 
+    override fun allProducts(): List<Product> = products.query.list()
 
-    fun allProducts(): List<Product> = products.query.list()
+    override fun product(id: String): ProductWithPrices = products.query.select { it.id == id }.map { product ->
+        ProductWithPrices(product, unitPrices.query.select { it.sku == product.sku }.list())
+    }.single()
 
-    fun product(id: String): ProductWithPrices =
-            products.query.select { it.id == id }.map { product ->
-                ProductWithPrices(product, unitPrices.query.select { it.sku == product.sku }.list())
-            }.single()
-
-    fun price(id: String, unit: PackingUnit): Price =
-            products.query.select { it.id == id }.map { product ->
-                unitPrices.query.select { it.sku == product.sku && it.unit == unit }.map { it.price }.single()
-            }.single()
+    override fun price(id: String, unit: PackingUnit): Price = products.query.select { it.id == id }.map { product ->
+        unitPrices.query.select { it.sku == product.sku && it.unit == unit }.map { it.price }.single()
+    }.single()
 }

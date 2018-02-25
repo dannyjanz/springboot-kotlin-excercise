@@ -1,17 +1,16 @@
 package de.bringmeister.service
 
-import de.bringmeister.storage.MockProducts
-import de.bringmeister.storage.MockSkuUnitPrices
-import de.bringmeister.storage.ProductsFromXml
-import de.bringmeister.storage.SkuUnitPricesFromJson
+import de.bringmeister.MockData
+import de.bringmeister.MockProducts
+import de.bringmeister.MockSkuUnitPrices
 import org.junit.Test
 
 class ProductServiceUTest {
 
-    val service = ProductService(ProductsFromXml(MockProducts), SkuUnitPricesFromJson(MockSkuUnitPrices))
+    val service = MockData.productService
 
     @Test
-    fun `allProducts should return all Products the respective Storage has to offer`() {
+    fun `allProducts should return all Products the Storage has to offer`() {
 
         assert(service.allProducts() == MockProducts.all)
 
@@ -29,7 +28,7 @@ class ProductServiceUTest {
     }
 
     @Test
-    fun `getting a price`() {
+    fun `getting a price for a product and unit should return exactly that price`() {
         val price = service.price(MockProducts.banana.id, MockSkuUnitPrices.a.unit)
 
         assert(price == MockSkuUnitPrices.a.price)
