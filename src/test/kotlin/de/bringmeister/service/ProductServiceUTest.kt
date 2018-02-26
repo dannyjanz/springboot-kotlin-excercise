@@ -16,7 +16,7 @@ class ProductServiceUTest {
     @Test
     fun `allProducts should return all Products the Storage has to offer`() {
 
-        assert(service.allProducts() == MockProducts.all)
+        assert(service.allProducts() == Success(MockProducts.all))
 
     }
 
