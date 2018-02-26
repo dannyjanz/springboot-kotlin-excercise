@@ -33,6 +33,10 @@ Out of scope:
 
 - clone repository into folder of choice
 - `cd` into the folder and run `./gradlew bootRun`
+- open Browser or use HTTP Client to connect to the routes
+    - `/products` for all products and their master data
+    - `/products/{id}` for single product with master data and all prices
+    - `/products/{id}/prices/{unit}` price for single product and unit
 
 
 ## Implementation

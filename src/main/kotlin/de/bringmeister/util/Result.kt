@@ -7,7 +7,6 @@ interface Result<out T> {
     fun <R> map(func: (T) -> R): Result<R>
     fun <R> flatMap(func: (T) -> Result<R>): Result<R>
     fun filter(pred: (T) -> Boolean): Result<T>
-
     fun <R> recoverWith(func: (Throwable) -> Result<R>): Result<R>
 
 }
