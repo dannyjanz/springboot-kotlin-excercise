@@ -56,6 +56,13 @@ class ProductControllerUTest {
     }
 
     @Test
+    fun `test that the route for a single product returns a 400 code when a non existing id is used`() {
+        mvc.perform(get("/products/3")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().is4xxClientError)
+    }
+
+    @Test
     fun `test that the route for a single price for a product and unit returns the requested price in JSON format`() {
 
         val responseBody = mvc.perform(get("/products/1/prices/piece")
@@ -64,6 +71,22 @@ class ProductControllerUTest {
                 .andReturn().response.contentAsString
 
         assert(responseBody == """{"value":2.45,"currency":"EUR"}""")
+
+    }
+
+    @Test
+    fun `test that the route for a single price returns a 400 code when either the product or the price don't exist`() {
+
+        mvc.perform(get("/products/3/prices/piece")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().is4xxClientError)
+                .andReturn().response.contentAsString
+
+        mvc.perform(get("/products/2/prices/package")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().is4xxClientError)
+                .andReturn().response.contentAsString
+
 
     }
 

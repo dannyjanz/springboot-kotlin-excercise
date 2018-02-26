@@ -1,6 +1,7 @@
 package de.bringmeister.storage
 
 import de.bringmeister.MockSkuUnitPrices
+import de.bringmeister.util.Success
 import org.junit.Test
 import java.lang.Exception
 import java.nio.charset.Charset
@@ -12,8 +13,8 @@ class SkuUnitPricesFromJsonUTest {
 
         val skuUnitPrices = SkuUnitPricesFromJson(MockSkuUnitPrices).query.list()
 
-        assert(skuUnitPrices.size == MockSkuUnitPrices.all.size)
-        assert(skuUnitPrices.containsAll(MockSkuUnitPrices.all))
+        assert(skuUnitPrices.map { it.size } == Success(MockSkuUnitPrices.all.size))
+        assert(skuUnitPrices == Success(MockSkuUnitPrices.all))
     }
 
     @Test(expected = Exception::class)
