@@ -21,7 +21,7 @@ class ProductControllerUTest {
     }
 
     @Test
-    fun `test that the route for all products returns all products in JSON format`() {
+    fun `the route for all products returns all products in JSON format`() {
 
         val responseBody = mvc.perform(get("/products/")
                 .contentType(APPLICATION_JSON))
@@ -37,7 +37,7 @@ class ProductControllerUTest {
     }
 
     @Test
-    fun `test that the route for a single product returns the product with all its prices in JSON format`() {
+    fun `the route for a single product returns the product with all its prices in JSON format`() {
 
         val responseBody = mvc.perform(get("/products/1")
                 .contentType(APPLICATION_JSON))
@@ -56,14 +56,14 @@ class ProductControllerUTest {
     }
 
     @Test
-    fun `test that the route for a single product returns a 400 code when a non existing id is used`() {
+    fun `the route for a single product returns a 400 code when a non existing id is used`() {
         mvc.perform(get("/products/3")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().is4xxClientError)
     }
 
     @Test
-    fun `test that the route for a single price for a product and unit returns the requested price in JSON format`() {
+    fun `the route for a single price for a product and unit returns the requested price in JSON format`() {
 
         val responseBody = mvc.perform(get("/products/1/prices/piece")
                 .contentType(APPLICATION_JSON))
@@ -75,7 +75,7 @@ class ProductControllerUTest {
     }
 
     @Test
-    fun `test that the route for a single price returns a 400 code when either the product or the price don't exist`() {
+    fun `the route for a single price returns a 400 code when either the product or the price doesn't exist`() {
 
         mvc.perform(get("/products/3/prices/piece")
                 .contentType(APPLICATION_JSON))
@@ -88,6 +88,15 @@ class ProductControllerUTest {
                 .andReturn().response.contentAsString
 
 
+    }
+
+    @Test
+    fun `using a non existing unit name does not lead to a server error but to a client error`() {
+
+        mvc.perform(get("/products/1/prices/barrel")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().is4xxClientError)
+                .andReturn().response.contentAsString
     }
 
 

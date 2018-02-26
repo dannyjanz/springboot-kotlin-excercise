@@ -1,6 +1,8 @@
 package de.bringmeister.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import de.bringmeister.util.Attempt
+import de.bringmeister.util.Empty
 
 enum class PackingUnit {
 
@@ -11,9 +13,9 @@ enum class PackingUnit {
     PACKAGE;
 
     companion object {
-        fun fromCode(code: String) = code.toLowerCase().let { lowerCode ->
-            values().filter { it.name.toLowerCase() == lowerCode }.first()
-        }
+        fun fromName(name: String) = Attempt {
+            name.toLowerCase().let { lowerCode -> values().first { it.name.toLowerCase() == lowerCode } }
+        }.recoverWith { Empty<PackingUnit>("No packing unit exists for $name") }
     }
 
 

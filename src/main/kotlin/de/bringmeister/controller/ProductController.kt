@@ -23,7 +23,8 @@ class ProductController @Autowired constructor(val productService: ProductServic
     fun productWithPrices(@PathVariable id: String) = productService.product(id).asResponse()
 
     @GetMapping("/products/{id}/prices/{unit}", produces = ["application/json", "application/xml"])
-    fun price(@PathVariable id: String, @PathVariable unit: String) = productService.price(id, PackingUnit.fromCode(unit)).asResponse()
+    fun price(@PathVariable id: String, @PathVariable unit: String) =
+            PackingUnit.fromName(unit).flatMap { productService.price(id, it) }.asResponse()
 
 }
 
